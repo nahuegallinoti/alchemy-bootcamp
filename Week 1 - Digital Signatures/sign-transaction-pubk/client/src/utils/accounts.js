@@ -1,6 +1,6 @@
 export const ACCOUNT_KEYS = new Map([
   [
-    "bob",
+    "Salla",
     {
       private:
         "80be2cbf548b57a7dd32c186c0e80e4a91225187f99b85b72d7f4d8fdd5382d7",
@@ -9,7 +9,7 @@ export const ACCOUNT_KEYS = new Map([
     },
   ],
   [
-    "alice",
+    "Emilia",
     {
       private:
         "23ad82c19cbe8e1b605a722e77d22c1a1005b3ee149604d3b30b42a96173e9e7",
@@ -18,7 +18,7 @@ export const ACCOUNT_KEYS = new Map([
     },
   ],
   [
-    "charles",
+    "Nahuel",
     {
       private:
         "97ad365e22f6f50672d7af984e5ea0887ad40128e157aa4c35c450f4d17aedd9",

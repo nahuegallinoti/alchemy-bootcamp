@@ -1,0 +1,117 @@
+$primary-color: #383d43;
+$secondary-color: #6c757d;
+
+/* Global styles */
+body {
+  font-family: "Muli", sans-serif;
+  background-color: $primary-color;
+  margin: 0;
+  padding: 0;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  letter-spacing: 0.1rem;
+  font-size: 1em;
+  color: #ffffff;
+  margin: 10px;
+  padding: 5px;
+}
+
+/* Container styles */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-width: 480px;  
+  padding: 30px;
+  border: 1px solid #cbd5e0;
+  border-radius: 0.375rem;
+  background: linear-gradient(90deg,
+      #b13131 1%,
+      rgb(25, 25, 25) 5%,
+
+    );
+
+  h1 {
+    font-size: 2em;
+    color: white;
+  }
+
+  /* Button styles */
+  .button {
+    margin-top: 10px;
+    background-color: #b13131;
+    border-radius: 0.125rem;    
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 400;
+    font-size: 0.9em;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  /* Input styles */
+  input {
+    padding: 10px 0;
+    border-radius: 0.125rem;
+    border: 1px solid rgb(226, 232, 240);
+    background-color: #fdfdfe;
+    padding-inline-start: 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Wallet component styles */
+.wallet {
+
+  /* Balance and Address styles */
+  .balance,
+  .address {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 400;
+    font-size: 0.9em;
+    display: inline-flex;
+    margin-top: 10px;
+    padding: 0.75rem;
+  }
+
+  /* Balance style */
+  .balance {
+    background-color: #f4f6f8;
+  }
+
+  /* Address style */
+  .address {
+    background-color: #b13131;
+    border: 1px dashed black;
+
+    span {
+      padding-bottom: 5px;
+    }
+  }
+
+}
+
+.transfer {  
+  .amount,
+  .recipient {    
+    letter-spacing: 1px;
+    font-weight: 400;
+    font-size: 0.9em;    
+  }
+}
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 0.9rem;
+  text-align: center;
+  gap: 20px;
+}

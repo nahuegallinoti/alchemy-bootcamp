@@ -21,20 +21,23 @@ function Wallet({ user, setUser, balance, setBalance }) {
 
   return (
     <div className="container wallet">
-      <h1>Your Wallet</h1>
+      <h1>Wallet</h1>
 
-      <label>
-        Wallet Address
-        <select onChange={onSelectUser} value={user}>
-          <option value="">--- please choose a user wallet ---</option>
-          {wallet.USERS.map((u, i) => (
-            <option key={i} value={u}>
-              {u}
+      <div>
+        <label className="address">
+          <span>Wallet Address</span>
+          <select onChange={onSelectUser} value={user}>
+            <option value="" disabled>
+              --- Choose an user wallet ---
             </option>
-          ))}
-        </select>
-      </label>
-
+            {wallet.USERS.map((u, i) => (
+              <option key={i} value={u}>
+                {u}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
       <div className="balance">Address: {wallet.getAddress(user)}</div>
       <div className="balance">Balance: {balance}</div>
     </div>

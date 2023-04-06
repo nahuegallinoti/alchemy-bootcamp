@@ -33,21 +33,21 @@ function Transfer({ user, setBalance }) {
 
   return (
     <form className="container transfer" onSubmit={transfer}>
-      <h1>Send Transaction</h1>
+      <h1>Transaction</h1>
 
-      <label>
-        Send Amount
+      <label className="amount">
+        Amount
         <input
-          placeholder="1, 2, 3..."
+          placeholder="10"
           value={sendAmount}
           onChange={setValue(setSendAmount)}
         ></input>
       </label>
 
-      <label>
+      <label className="recipient">
         Recipient
         <input
-          placeholder="Type an user user, for example: BE13..."
+          placeholder="Type recipient address here"
           value={recipient}
           onChange={setValue(setRecipient)}
         ></input>
