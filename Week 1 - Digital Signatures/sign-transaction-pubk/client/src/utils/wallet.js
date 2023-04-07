@@ -24,9 +24,14 @@ const getPublicKey = (user) => {
   if (!user) return null;
 
   try {
-    const address = ACCOUNTS.find((acc) => acc.address === user);
+    const userSelect = ACCOUNTS.find((account) => {
+      return account.userName === user;
+    });
 
-    const userSelected = ACCOUNT_KEYS.get(user);
+    if (!userSelect) return null;
+
+    const userSelected = ACCOUNT_KEYS.get(userSelect.address);
+
     if (!userSelected) return null;
 
     return hexToBytes(userSelected.public);
@@ -60,11 +65,6 @@ const getAddress = (user) => {
   return toHex(hash.slice(-20)).toUpperCase();
 };
 
-const getHexPubKey = (user) => {
-  if (!user) return null;
-  return toHex(getPublicKey(user)).toUpperCase();
-};
-
 const sign = async (username, message) => {
   const privateKey = getPrivateKey(username);
   const hash = hashMessage(message);
@@ -81,6 +81,5 @@ const wallet = {
   generateWallet,
   sign,
   getAddress,
-  getHexPubKey,
 };
 export default wallet;

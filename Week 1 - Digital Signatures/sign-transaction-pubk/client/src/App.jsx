@@ -26,6 +26,7 @@ function App() {
           setBalance={setBalance}
           user={user}
           setUser={setUser}
+          accounts={accounts}
         />
       </div>
       <div className="generatorWallet">
@@ -34,6 +35,7 @@ function App() {
           setTransactionHistory={setTransactionHistory}
           transactionHistory={transactionHistory}
           user={user}
+          accounts={accounts}
         />
         <TransactionHistory
           transactionHistory={transactionHistory}

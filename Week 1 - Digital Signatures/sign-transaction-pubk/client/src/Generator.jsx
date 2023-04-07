@@ -35,9 +35,12 @@ function Generator({ setAccounts, setBalance, setUser }) {
         setAccounts([...wallet.ACCOUNTS]);
         setBalance(balance);
         setUser(userName);
+
+        setUserName("");
+        setInitialAmount(0);
       }
     } catch (error) {
-      throw new Error(error);
+      alert(error.message);
     }
   };
 

@@ -1,63 +1,69 @@
 import server from "./server";
-import wallet from "./utils/wallet";
+import { useEffect, useState } from "react";
 
-function Wallet({ user, setUser, balance, setBalance }) {
+function Wallet({ user, setUser, balance, setBalance, accounts }) {
+  const [address, setAddress] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      const selectedAccount = accounts.find(
+        (account) => account.userName === user
+      );
+      setAddress(selectedAccount.address);
+    }
+  }, [user, accounts]);
+
   async function onSelectUser(evt) {
     const userName = evt.target.value;
-
     setUser(userName);
 
-    try {
-      const address = wallet.ACCOUNTS.find((x) => {
-        return x.userName === userName;
-      }).address;
+    const selectedAccount = accounts.find(
+      (account) => account.userName === userName
+    );
+    const selectedAddress = selectedAccount.address;
+    setAddress(selectedAddress);
 
-      const balance = await server.get(`balance/${address}`);
-      setBalance(balance.data.balance);
+    try {
+      const res = await server.get(`balance/${selectedAddress}`);
+      setBalance(res.data.balance);
     } catch (error) {
       throw new Error(error);
     }
   }
 
   return (
-    <div className="container wallet">
-      <h1>Wallet</h1>
-
-      <div>
-        <label className="chooseWallet">
-          <span>Wallet Address</span>
-          <select onChange={onSelectUser} value={user}>
-            <option value="" disabled>
-              --- Choose an user wallet ---
-            </option>
-            {wallet.ACCOUNTS.map((account, i) => (
-              // se muestra en el desplegable el nombre del usuario
-              // y se guarda en el estado el address
-              <option key={i} value={account.userName}>
-                {account.userName}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+    <>
       {user && (
-        <>
-          <div className="addressContainer">
-            <span className="addressTxt">Address</span>
-            <label className="address">
-              {
-                wallet.ACCOUNTS.find((x) => {
-                  return x.userName === user;
-                }).address
-              }
-            </label>
+        <div className="container wallet">
+          <h1>Wallet</h1>
 
-            <span className="addressTxt">Balance</span>
-            <label className="balance"> {balance}</label>
+          <div>
+            <label className="chooseWallet">
+              <span>Wallet Address</span>
+              <select onChange={onSelectUser} value={user}>
+                <option value="" disabled>
+                  --- Choose a user wallet ---
+                </option>
+                {accounts.map((account) => (
+                  <option key={account.userName} value={account.userName}>
+                    {account.userName}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
-        </>
+
+          {address && (
+            <div className="addressContainer">
+              <span className="addressTxt">Address</span>
+              <label className="address">{address}</label>
+              <span className="addressTxt">Balance</span>
+              <label className="balance">{balance}</label>
+            </div>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 }
 

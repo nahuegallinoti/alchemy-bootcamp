@@ -7,6 +7,7 @@ function Transfer({
   setBalance,
   setTransactionHistory,
   transactionHistory,
+  accounts,
 }) {
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
@@ -21,7 +22,7 @@ function Transfer({
       recipient,
     };
 
-    const address = wallet.ACCOUNTS.find((a) => a.userName === user).address;
+    const address = accounts.find((a) => a.userName === user).address;
 
     const signature = await wallet.sign(address, message);
 
@@ -43,6 +44,9 @@ function Transfer({
       };
 
       setTransactionHistory((prev) => [transaction, ...prev]);
+
+      setRecipient("");
+      setSendAmount("");
     } catch (ex) {
       alert(ex.response.data.message);
     }
