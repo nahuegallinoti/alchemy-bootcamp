@@ -65,7 +65,9 @@ function Generator({ setAccounts, setBalance, setUser }) {
         ></input>
       </label>
 
-      <input type="submit" className="button" value="Generate" />
+      <div>
+        <input type="submit" className="button" value="Generate" />
+      </div>
     </form>
   );
 }

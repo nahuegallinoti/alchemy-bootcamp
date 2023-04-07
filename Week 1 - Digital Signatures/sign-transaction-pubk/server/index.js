@@ -10,6 +10,10 @@ app.use(cors());
 
 const accounts = new Map();
 
+app.get("/accounts", (req, res) => {
+  res.send([...accounts]);
+});
+
 app.post("/register", (req, res) => {
   const { userName, address, balance } = req.body.params;
 
@@ -32,6 +36,8 @@ app.post("/send", (req, res) => {
 
   const puk = crypto.signatureToPubKey(message, signature);
   const sender = crypto.getAddressFromPublicKey(puk);
+  console.log(recipient);
+  console.log(sender);
 
   setInitialBalance(sender);
   setInitialBalance(recipient);
@@ -71,10 +77,11 @@ app.listen(port, () => {
 
 function setInitialBalance(address) {
   const account = accounts.get(address);
+  const userName = account ? account.userName : address;
 
   if (!account) {
     const params = {
-      userName: account.userName,
+      userName: userName,
       balance: 0,
     };
 

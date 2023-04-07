@@ -4,7 +4,7 @@ function TransactionHistory({ transactionHistory }) {
       <h1>Transaction History</h1>
       {transactionHistory.map((transaction) => {
         return (
-          <div className="transaction">
+          <div className="transaction" key={transaction.id}>
             <p>Id: {transaction.id}</p>
             <p>From: {transaction.from}</p>
             <p>To: {transaction.to}</p>

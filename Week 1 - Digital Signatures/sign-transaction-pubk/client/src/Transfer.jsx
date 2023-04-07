@@ -52,15 +52,6 @@ function Transfer({
     <form className="container transfer" onSubmit={transfer}>
       <h1>Transfer</h1>
 
-      <label className="amount">
-        Amount
-        <input
-          placeholder="10"
-          value={sendAmount}
-          onChange={setValue(setSendAmount)}
-        ></input>
-      </label>
-
       <label className="recipient">
         Recipient
         <input
@@ -70,7 +61,18 @@ function Transfer({
         ></input>
       </label>
 
-      <input type="submit" className="button" value="Transfer" />
+      <label className="amount">
+        Amount
+        <input
+          placeholder="10"
+          value={sendAmount}
+          onChange={setValue(setSendAmount)}
+        ></input>
+      </label>
+
+      <div>
+        <input type="submit" className="button" value="Transfer" />
+      </div>
     </form>
   );
 }
