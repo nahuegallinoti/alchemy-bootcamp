@@ -2,7 +2,12 @@ import { useState } from "react";
 import server from "./server";
 import wallet from "./utils/wallet";
 
-function Transfer({ user, setBalance }) {
+function Transfer({
+  user,
+  setBalance,
+  setTransactionHistory,
+  transactionHistory,
+}) {
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
 
@@ -17,6 +22,7 @@ function Transfer({ user, setBalance }) {
     };
 
     const address = wallet.ACCOUNTS.find((a) => a.userName === user).address;
+
     const signature = await wallet.sign(address, message);
 
     try {
@@ -28,6 +34,15 @@ function Transfer({ user, setBalance }) {
       });
 
       setBalance(balance);
+
+      const transaction = {
+        id: transactionHistory.length + 1,
+        from: address,
+        to: recipient,
+        amount: sendAmount,
+      };
+
+      setTransactionHistory((prev) => [transaction, ...prev]);
     } catch (ex) {
       alert(ex.response.data.message);
     }
@@ -35,7 +50,7 @@ function Transfer({ user, setBalance }) {
 
   return (
     <form className="container transfer" onSubmit={transfer}>
-      <h1>Transaction</h1>
+      <h1>Transfer</h1>
 
       <label className="amount">
         Amount

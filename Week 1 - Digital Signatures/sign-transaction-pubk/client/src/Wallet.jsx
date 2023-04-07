@@ -24,7 +24,7 @@ function Wallet({ user, setUser, balance, setBalance }) {
       <h1>Wallet</h1>
 
       <div>
-        <label className="address">
+        <label className="chooseWallet">
           <span>Wallet Address</span>
           <select onChange={onSelectUser} value={user}>
             <option value="" disabled>
@@ -42,15 +42,19 @@ function Wallet({ user, setUser, balance, setBalance }) {
       </div>
       {user && (
         <>
-          <div className="balance">
-            Address:
-            {
-              wallet.ACCOUNTS.find((x) => {
-                return x.userName === user;
-              }).address
-            }
+          <div className="addressContainer">
+            <span className="addressTxt">Address</span>
+            <label className="address">
+              {
+                wallet.ACCOUNTS.find((x) => {
+                  return x.userName === user;
+                }).address
+              }
+            </label>
+
+            <span className="addressTxt">Balance</span>
+            <label className="balance"> {balance}</label>
           </div>
-          <div className="balance">Balance: {balance}</div>
         </>
       )}
     </div>

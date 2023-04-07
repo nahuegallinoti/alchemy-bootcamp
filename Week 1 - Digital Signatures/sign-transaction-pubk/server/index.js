@@ -39,6 +39,12 @@ app.post("/send", (req, res) => {
   const senderAccount = accounts.get(sender);
   const recipientAccount = accounts.get(recipient);
 
+  if (sender === recipient) {
+    return res
+      .status(400)
+      .send({ message: "You can't send money to yourself!" });
+  }
+
   const senderParams = {
     userName: senderAccount.userName,
     balance: senderAccount.balance - amount,
