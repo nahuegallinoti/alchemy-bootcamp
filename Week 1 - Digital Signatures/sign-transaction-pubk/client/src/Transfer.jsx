@@ -16,7 +16,8 @@ function Transfer({ user, setBalance }) {
       recipient,
     };
 
-    const signature = await wallet.sign(user, message);
+    const address = wallet.ACCOUNTS.find((a) => a.userName === user).address;
+    const signature = await wallet.sign(address, message);
 
     try {
       const {
@@ -25,6 +26,7 @@ function Transfer({ user, setBalance }) {
         message,
         signature,
       });
+
       setBalance(balance);
     } catch (ex) {
       alert(ex.response.data.message);

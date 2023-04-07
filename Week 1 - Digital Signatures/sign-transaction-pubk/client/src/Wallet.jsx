@@ -3,19 +3,19 @@ import wallet from "./utils/wallet";
 
 function Wallet({ user, setUser, balance, setBalance }) {
   async function onSelectUser(evt) {
-    const selectedUser = evt.target.value;
+    const userName = evt.target.value;
 
-    setUser(selectedUser);
+    setUser(userName);
 
-    if (selectedUser) {
-      const address = wallet.getAddress(selectedUser);
+    try {
+      const address = wallet.ACCOUNTS.find((x) => {
+        return x.userName === userName;
+      }).address;
 
-      const {
-        data: { balance },
-      } = await server.get(`balance/${address}`);
-      setBalance(balance);
-    } else {
-      setBalance(0);
+      const balance = await server.get(`balance/${address}`);
+      setBalance(balance.data.balance);
+    } catch (error) {
+      throw new Error(error);
     }
   }
 
@@ -30,16 +30,29 @@ function Wallet({ user, setUser, balance, setBalance }) {
             <option value="" disabled>
               --- Choose an user wallet ---
             </option>
-            {wallet.USERS.map((u, i) => (
-              <option key={i} value={u}>
-                {u}
+            {wallet.ACCOUNTS.map((account, i) => (
+              // se muestra en el desplegable el nombre del usuario
+              // y se guarda en el estado el address
+              <option key={i} value={account.userName}>
+                {account.userName}
               </option>
             ))}
           </select>
         </label>
       </div>
-      <div className="balance">Address: {wallet.getAddress(user)}</div>
-      <div className="balance">Balance: {balance}</div>
+      {user && (
+        <>
+          <div className="balance">
+            Address:
+            {
+              wallet.ACCOUNTS.find((x) => {
+                return x.userName === user;
+              }).address
+            }
+          </div>
+          <div className="balance">Balance: {balance}</div>
+        </>
+      )}
     </div>
   );
 }

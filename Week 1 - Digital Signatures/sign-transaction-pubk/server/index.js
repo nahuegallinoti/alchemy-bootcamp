@@ -8,15 +8,21 @@ const port = 3042;
 app.use(express.json());
 app.use(cors());
 
-const balances = new Map([
-  ["3BAA0CCD999F60A0FD249B5E95E9A71ECE909E50", 10],
-  ["9F6E927523CDE8227EEF35169AF594548A933660", 20],
-  ["8E536A0E798D922DDA101F44500AC93F2282356A", 30],
-]);
+const accounts = new Map();
+
+app.post("/register", (req, res) => {
+  const { userName, address, balance } = req.body.params;
+
+  accounts.set(address, { userName, balance });
+  res.send({ address, balance });
+});
 
 app.get("/balance/:address", (req, res) => {
   const { address } = req.params;
-  const balance = balances.get(address) || 0;
+
+  const account = accounts.get(address) || 0;
+  const balance = account.balance || 0;
+
   res.send({ balance });
 });
 
@@ -30,12 +36,26 @@ app.post("/send", (req, res) => {
   setInitialBalance(sender);
   setInitialBalance(recipient);
 
-  if (balances.get(sender) < amount) {
+  const senderAccount = accounts.get(sender);
+  const recipientAccount = accounts.get(recipient);
+
+  const senderParams = {
+    userName: senderAccount.userName,
+    balance: senderAccount.balance - amount,
+  };
+
+  const recipientParams = {
+    userName: recipientAccount ? recipientAccount.userName : recipient,
+    balance: recipientAccount ? recipientAccount.balance + amount : amount,
+  };
+
+  if (accounts.get(sender).balance < amount) {
     res.status(400).send({ message: "Not enough funds!" });
   } else {
-    balances.set(sender, balances.get(sender) - amount);
-    balances.set(recipient, balances.get(recipient) + amount);
-    res.send({ balance: balances.get(sender) });
+    accounts.set(sender, senderParams);
+    accounts.set(recipient, recipientParams);
+
+    res.send({ balance: accounts.get(sender).balance });
   }
 });
 
@@ -44,7 +64,14 @@ app.listen(port, () => {
 });
 
 function setInitialBalance(address) {
-  if (!balances.get(address)) {
-    balances.set(address, 0);
+  const account = accounts.get(address);
+
+  if (!account) {
+    const params = {
+      userName: account.userName,
+      balance: 0,
+    };
+
+    accounts.set(address, params);
   }
 }

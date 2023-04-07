@@ -10,9 +10,9 @@ const getAddressFromPublicKey = (publicKey) => {
   try {
     if (!publicKey) return null;
 
-    return toHex(keccak256(publicKey.slice(1)).slice(-20))
+    return `0x${toHex(keccak256(publicKey.slice(1)).slice(-20))
       .toUpperCase()
-      .toString();
+      .toString()}`;
   } catch (error) {
     throw new Error("Invalid public key");
   }
